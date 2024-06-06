@@ -8,7 +8,7 @@
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #1d1628; /* Set background color */
+            background-color: #1d1628;
         }
         canvas {
             display: block;
@@ -29,6 +29,7 @@
             camera.position.z = 5;
 
             renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setClearColor(0x1d1628); // The background colour being set.
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
