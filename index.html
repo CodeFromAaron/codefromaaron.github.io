@@ -39,19 +39,24 @@
             scene.add(light);
     
             const loader = new THREE.GLTFLoader();
-            loader.load('assets/red-tv-web.glb', function (gltf) {
+            loader.load('/assets/red-tv-web.glb', function (gltf) {
                 model = gltf.scene;
 
-                // Scale the model down to 0.3
-                model.scale.set(0.3, 0.3, 0.3);
-        
-                // Center the model
+                // Scale the model and position it
+                model.scale.set(1, 1, 1);
                 model.position.set(0, 0, 0);
 
                 scene.add(model);
             });
     
             window.addEventListener('resize', onWindowResize, false);
+        }
+    
+        // Handle window resize
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         }
     
         // Animate the scene
