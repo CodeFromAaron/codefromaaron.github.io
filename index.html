@@ -19,8 +19,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
+            width: 45px;
+            height: 45px;
             background-color: transparent;
             border: 1px solid transparent;
         }
@@ -29,8 +29,9 @@
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
-        <script>
-        let scene, camera, renderer, model, spinSpeed, scale;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.min.js"></script>
+    <script>
+        let scene, camera, renderer, model, spinSpeed, scale, scaleTween;
 
         // Initialize the scene
         function init() {
@@ -86,18 +87,28 @@
         // Handle mouse enter interaction box
         function onMouseEnterInteractionBox() {
             if (model) {
-                // Increase spin speed and scale
-                spinSpeed = 0.02;
-                scale = 0.4;
+                // Smoothly scale up
+                scaleTween = new TWEEN.Tween({ scale: scale })
+                    .to({ scale: 0.4 }, 500)
+                    .easing(TWEEN.Easing.Quadratic.InOut)
+                    .onUpdate(function () {
+                        model.scale.set(this.scale, this.scale, this.scale);
+                    })
+                    .start();
             }
         }
 
         // Handle mouse leave interaction box
         function onMouseLeaveInteractionBox() {
             if (model) {
-                // Reset spin speed and scale
-                spinSpeed = 0.01;
-                scale = 0.2;
+                // Smoothly scale down
+                scaleTween = new TWEEN.Tween({ scale: scale })
+                    .to({ scale: 0.2 }, 500)
+                    .easing(TWEEN.Easing.Quadratic.InOut)
+                    .onUpdate(function () {
+                        model.scale.set(this.scale, this.scale, this.scale);
+                    })
+                    .start();
             }
         }
     
@@ -107,8 +118,9 @@
         
             if (model) {
                 model.rotation.y += spinSpeed; // Rotate the model
-                model.scale.set(scale, scale, scale); // Scale the model
             }
+
+            TWEEN.update(); // Update the tweening
 
             renderer.render(scene, camera);
         }
