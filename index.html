@@ -30,8 +30,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
-        let scene, camera, renderer, model;
-        <script>
         let scene, camera, renderer, model, spinSpeed, scale;
 
         // Initialize the scene
@@ -54,6 +52,7 @@
             const loader = new THREE.GLTFLoader();
             loader.load('/assets/red-tv-web.glb', function (gltf) {
                 model = gltf.scene;
+
                 // Scale the model and position it
                 model.scale.set(0.2, 0.2, 0.2);
                 model.position.set(0, 0, 0);
@@ -70,14 +69,13 @@
                 document.body.appendChild(interactionBox);
 
                 // Add mouse event listeners
-                renderer.domElement.addEventListener('mousemove', onMouseMove);
-                renderer.domElement.addEventListener('mouseleave', onMouseLeave);
                 interactionBox.addEventListener('mouseenter', onMouseEnterInteractionBox);
                 interactionBox.addEventListener('mouseleave', onMouseLeaveInteractionBox);
             });
 
             window.addEventListener('resize', onWindowResize, false);
         }
+
         // Handle window resize
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -85,30 +83,15 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        // Handle mouse move event
-        function onMouseMove(event) {
         // Handle mouse enter interaction box
         function onMouseEnterInteractionBox() {
             if (model) {
-                const canvasBounds = renderer.domElement.getBoundingClientRect();
-                const mouseX = (event.clientX - canvasBounds.left) / canvasBounds.width;
-                const mouseY = (event.clientY - canvasBounds.top) / canvasBounds.height;
-
-                if (mouseX >= 0 && mouseX <= 1 && mouseY >= 0 && mouseY <= 1) {
-                    // Mouse is over the object
-                    model.scale.set(0.4, 0.4, 0.4);
-                } else {
-                    // Mouse is not over the object
-                    model.scale.set(0.2, 0.2, 0.2);
-                }
                 // Increase spin speed and scale
                 spinSpeed = 0.02;
                 scale = 0.4;
             }
         }
 
-        // Handle mouse leave event
-        function onMouseLeave() {
         // Handle mouse leave interaction box
         function onMouseLeaveInteractionBox() {
             if (model) {
@@ -125,7 +108,6 @@
             requestAnimationFrame(animate);
 
             if (model) {
-                model.rotation.y += 0.01; // Rotate the model
                 model.rotation.y += spinSpeed; // Rotate the model
                 model.scale.set(scale, scale, scale); // Scale the model
             }
