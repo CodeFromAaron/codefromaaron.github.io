@@ -21,7 +21,6 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
         let scene, camera, renderer, model;
-
         // Initialize the scene
         function init() {
             scene = new THREE.Scene();
@@ -42,26 +41,10 @@
             const loader = new THREE.GLTFLoader();
             loader.load('/assets/red-tv-web.glb', function (gltf) {
                 model = gltf.scene;
-
                 // Scale the model and position it
                 model.scale.set(0.2, 0.2, 0.2);
                 model.position.set(0, 0, 0);
-
                 scene.add(model);
-
-                // Add event listeners for mouse over and out
-                model.userData.isMouseOver = false;
-                model.userData.defaultScale = model.scale.clone();
-
-                model.addEventListener('mouseover', function () {
-                    model.userData.isMouseOver = true;
-                    model.scale.set(0.4, 0.4, 0.4); // Grow twice in size
-                });
-
-                model.addEventListener('mouseout', function () {
-                    model.userData.isMouseOver = false;
-                    model.scale.copy(model.userData.defaultScale); // Reset scale
-                });
             });
     
             window.addEventListener('resize', onWindowResize, false);
@@ -79,15 +62,8 @@
             requestAnimationFrame(animate);
         
             if (model) {
-                // Rotate the model
-                model.rotation.y += 0.01;
-
-                // Speed up rotation if mouse is over
-                if (model.userData.isMouseOver) {
-                    model.rotation.y += 0.05;
-                }
+                model.rotation.y += 0.01; // Rotate the model
             }
-
             renderer.render(scene, camera);
         }
     
