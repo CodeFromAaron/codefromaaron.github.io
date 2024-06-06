@@ -30,7 +30,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
-        let scene, camera, renderer, model, spinSpeed, scale, isInteracting;
+        let scene, camera, renderer, model;
+        <script>
+        let scene, camera, renderer, model, spinSpeed, scale;
 
         // Initialize the scene
         function init() {
@@ -56,20 +58,18 @@
                 // Scale the model and position it
                 model.scale.set(0.2, 0.2, 0.2);
                 model.position.set(0, 0, 0);
-
                 scene.add(model);
-
-                // Initialize spin speed, scale, and interaction flag
+                // Initialize spin speed and scale
                 spinSpeed = 0.01;
                 scale = 0.2;
-                isInteracting = false;
-
                 // Add interaction box
                 const interactionBox = document.createElement('div');
                 interactionBox.id = 'interactionBox';
                 document.body.appendChild(interactionBox);
 
                 // Add mouse event listeners
+                renderer.domElement.addEventListener('mousemove', onMouseMove);
+                renderer.domElement.addEventListener('mouseleave', onMouseLeave);
                 interactionBox.addEventListener('mouseenter', onMouseEnterInteractionBox);
                 interactionBox.addEventListener('mouseleave', onMouseLeaveInteractionBox);
             });
@@ -84,38 +84,49 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
+        // Handle mouse move event
+        function onMouseMove(event) {
         // Handle mouse enter interaction box
         function onMouseEnterInteractionBox() {
-            if (model && !isInteracting) {
-                isInteracting = true;
-                // Scale the model to 0.4
-                model.scale.set(0.4, 0.4, 0.4);
-                // Increase the spin speed
+            if (model) {
+                const canvasBounds = renderer.domElement.getBoundingClientRect();
+                const mouseX = (event.clientX - canvasBounds.left) / canvasBounds.width;
+                const mouseY = (event.clientY - canvasBounds.top) / canvasBounds.height;
+
+                if (mouseX >= 0 && mouseX <= 1 && mouseY >= 0 && mouseY <= 1) {
+                    // Mouse is over the object
+                    model.scale.set(0.4, 0.4, 0.4);
+                } else {
+                    // Mouse is not over the object
+                    model.scale.set(0.2, 0.2, 0.2);
+                }
+                // Increase spin speed and scale
                 spinSpeed = 0.02;
+                scale = 0.4;
             }
         }
 
+        // Handle mouse leave event
+        function onMouseLeave() {
         // Handle mouse leave interaction box
         function onMouseLeaveInteractionBox() {
-            if (model && isInteracting) {
-                // Reset the scale to 0.2 after a short delay
-                setTimeout(() => {
-                    model.scale.set(0.2, 0.2, 0.2);
-                    // Reset the spin speed
-                    spinSpeed = 0.01;
-                    isInteracting = false;
-                }, 200); // 200 milliseconds delay
+            if (model) {
+                // Reset the model's scale
+                model.scale.set(0.2, 0.2, 0.2);
+                // Reset spin speed and scale
+                spinSpeed = 0.01;
+                scale = 0.2;
             }
         }
-
         // Animate the scene
         function animate() {
             requestAnimationFrame(animate);
 
             if (model) {
+                model.rotation.y += 0.01; // Rotate the model
                 model.rotation.y += spinSpeed; // Rotate the model
+                model.scale.set(scale, scale, scale); // Scale the model
             }
-
             renderer.render(scene, camera);
         }
     
