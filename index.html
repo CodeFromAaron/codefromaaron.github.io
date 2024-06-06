@@ -67,21 +67,17 @@
         // Handle mouse move event
         function onMouseMove(event) {
             if (model) {
-                // Rotate the model faster
-                model.rotation.y += 0.02;
-
-                // Get the mouse position relative to the canvas
                 const canvasBounds = renderer.domElement.getBoundingClientRect();
-                const mouseX = event.clientX - canvasBounds.left;
-                const mouseY = event.clientY - canvasBounds.top;
+                const mouseX = (event.clientX - canvasBounds.left) / canvasBounds.width;
+                const mouseY = (event.clientY - canvasBounds.top) / canvasBounds.height;
 
-                // Scale the model based on the mouse position
-                const scaleFactor = 1.5;
-                model.scale.set(
-                    1 + mouseX / canvasBounds.width * scaleFactor,
-                    1 + mouseY / canvasBounds.height * scaleFactor,
-                    1 + (mouseX + mouseY) / (canvasBounds.width + canvasBounds.height) * scaleFactor
-                );
+                if (mouseX >= 0 && mouseX <= 1 && mouseY >= 0 && mouseY <= 1) {
+                    // Mouse is over the object
+                    model.scale.set(0.4, 0.4, 0.4);
+                } else {
+                    // Mouse is not over the object
+                    model.scale.set(0.2, 0.2, 0.2);
+                }
             }
         }
 
