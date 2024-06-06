@@ -21,6 +21,7 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
         let scene, camera, renderer, model;
+
         // Initialize the scene
         function init() {
             scene = new THREE.Scene();
@@ -41,20 +42,55 @@
             const loader = new THREE.GLTFLoader();
             loader.load('/assets/red-tv-web.glb', function (gltf) {
                 model = gltf.scene;
+
                 // Scale the model and position it
-                model.scale.set(0.2, 0.2, 0.2);
+                model.scale.set(1, 1, 1);
                 model.position.set(0, 0, 0);
+
                 scene.add(model);
+
+                // Add mouse event listeners
+                renderer.domElement.addEventListener('mousemove', onMouseMove);
+                renderer.domElement.addEventListener('mouseleave', onMouseLeave);
             });
     
             window.addEventListener('resize', onWindowResize, false);
         }
-    
+
         // Handle window resize
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        // Handle mouse move event
+        function onMouseMove(event) {
+            if (model) {
+                // Rotate the model faster
+                model.rotation.y += 0.02;
+
+                // Get the mouse position relative to the canvas
+                const canvasBounds = renderer.domElement.getBoundingClientRect();
+                const mouseX = event.clientX - canvasBounds.left;
+                const mouseY = event.clientY - canvasBounds.top;
+
+                // Scale the model based on the mouse position
+                const scaleFactor = 1.5;
+                model.scale.set(
+                    1 + mouseX / canvasBounds.width * scaleFactor,
+                    1 + mouseY / canvasBounds.height * scaleFactor,
+                    1 + (mouseX + mouseY) / (canvasBounds.width + canvasBounds.height) * scaleFactor
+                );
+            }
+        }
+
+        // Handle mouse leave event
+        function onMouseLeave() {
+            if (model) {
+                // Reset the model's scale
+                model.scale.set(1, 1, 1);
+            }
         }
     
         // Animate the scene
@@ -64,6 +100,7 @@
             if (model) {
                 model.rotation.y += 0.01; // Rotate the model
             }
+
             renderer.render(scene, camera);
         }
     
