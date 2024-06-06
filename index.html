@@ -29,8 +29,9 @@
 <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.min.js"></script>
     <script>
-        let scene, camera, renderer, model, spinSpeed, scale;
+        let scene, camera, renderer, model, spinSpeed, scale, isInteracting;
 
         // Initialize the scene
         function init() {
@@ -59,9 +60,10 @@
 
                 scene.add(model);
 
-                // Initialize spin speed and scale
+                // Initialize spin speed, scale, and interaction flag
                 spinSpeed = 0.01;
                 scale = 0.2;
+                isInteracting = false;
 
                 // Add interaction box
                 const interactionBox = document.createElement('div');
@@ -85,21 +87,47 @@
 
         // Handle mouse enter interaction box
         function onMouseEnterInteractionBox() {
-            if (model) {
-                // Increase spin speed and scale
-                spinSpeed = 0.02;
-                scale = 0.4;
+            if (model && !isInteracting) {
+                isInteracting = true;
+                // Tween the scale to 0.4 over 500 milliseconds
+                new TWEEN.Tween(model.scale)
+                    .to({ x: 0.4, y: 0.4, z: 0.4 }, 500)
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .start();
+
+                // Tween the rotation speed to 0.02 over 500 milliseconds
+                new TWEEN.Tween(this)
+                    .to({}, 500)
+                    .onUpdate(function () {
+                        spinSpeed = this.tweenedValue;
+                    })
+                    .tweenedValue = 0.02
+                    .start();
             }
         }
 
         // Handle mouse leave interaction box
         function onMouseLeaveInteractionBox() {
-            if (model) {
-                // Reset the model's scale
-                model.scale.set(0.2, 0.2, 0.2);
-                // Reset spin speed and scale
-                spinSpeed = 0.01;
-                scale = 0.2;
+            if (model && isInteracting) {
+                // Wait for 300 milliseconds before resetting interaction
+                setTimeout(() => {
+                    // Tween the scale to 0.2 over 500 milliseconds
+                    new TWEEN.Tween(model.scale)
+                        .to({ x: 0.2, y: 0.2, z: 0.2 }, 500)
+                        .easing(TWEEN.Easing.Quadratic.Out)
+                        .start();
+
+                    // Tween the rotation speed to 0.01 over 500 milliseconds
+                    new TWEEN.Tween(this)
+                        .to({}, 500)
+                        .onUpdate(function () {
+                            spinSpeed = this.tweenedValue;
+                        })
+                        .tweenedValue = 0.01
+                        .start();
+
+                    isInteracting = false;
+                }, 300); // 300 milliseconds delay
             }
         }
 
@@ -111,6 +139,8 @@
                 model.rotation.y += spinSpeed; // Rotate the model
                 model.scale.set(scale, scale, scale); // Scale the model
             }
+
+            TWEEN.update(); // Update tween animations
 
             renderer.render(scene, camera);
         }
