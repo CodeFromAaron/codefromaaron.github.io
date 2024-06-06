@@ -48,36 +48,23 @@
                 model.position.set(0, 0, 0);
 
                 scene.add(model);
-            });
 
-            // Add event listeners for mouse move
-            renderer.domElement.addEventListener('mousemove', onMouseMove);
+                // Add event listeners for mouse over and out
+                model.userData.isMouseOver = false;
+                model.userData.defaultScale = model.scale.clone();
+
+                model.addEventListener('mouseover', function () {
+                    model.userData.isMouseOver = true;
+                    model.scale.set(0.4, 0.4, 0.4); // Grow twice in size
+                });
+
+                model.addEventListener('mouseout', function () {
+                    model.userData.isMouseOver = false;
+                    model.scale.copy(model.userData.defaultScale); // Reset scale
+                });
+            });
     
             window.addEventListener('resize', onWindowResize, false);
-        }
-
-        // Handle mouse move
-        function onMouseMove(event) {
-            event.preventDefault();
-
-            // Calculate mouse position in normalized device coordinates
-            const mouse = {
-                x: (event.clientX / window.innerWidth) * 2 - 1,
-                y: -(event.clientY / window.innerHeight) * 2 + 1
-            };
-
-            // Raycast to check if the mouse is over the model
-            const raycaster = new THREE.Raycaster();
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(scene.children, true);
-
-            if (intersects.length > 0) {
-                if (intersects[0].object === model) {
-                    model.scale.set(0.4, 0.4, 0.4); // Grow twice in size
-                }
-            } else {
-                model.scale.set(0.2, 0.2, 0.2); // Reset scale
-            }
         }
     
         // Handle window resize
@@ -94,6 +81,11 @@
             if (model) {
                 // Rotate the model
                 model.rotation.y += 0.01;
+
+                // Speed up rotation if mouse is over
+                if (model.userData.isMouseOver) {
+                    model.rotation.y += 0.05;
+                }
             }
 
             renderer.render(scene, camera);
