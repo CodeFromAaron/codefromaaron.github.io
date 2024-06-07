@@ -16,7 +16,7 @@
         }
         #interactionBox {
             position: absolute;
-            top: 45%;
+            top: 48%;
             left: 50%;
             transform: translate(-50%, -50%);
             width: 100px;
@@ -30,16 +30,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
-        let scene, camera, renderer, model, spinSpeed, scale;
+        let scene, camera, renderer, model, spinSpeed, targetScale;
 
-        // Initialize the scene
         function init() {
             scene = new THREE.Scene();
 
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.z = 5;
 
-            // Set up the renderer with the specified background color
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setClearColor(0x1d1628); // Set background color to #1d1628
             renderer.setSize(window.innerWidth, window.innerHeight);
@@ -53,21 +51,21 @@
             loader.load('assets/red-tv-web.glb', function (gltf) {
                 model = gltf.scene;
 
-                // Scale the model and position it
+                // Initial scale and position
                 model.scale.set(0.2, 0.2, 0.2);
                 model.position.set(0, 0, 0);
                 scene.add(model);
-                // Initialize spin speed and scale
+
+                // Initialize spin speed and target scale
                 spinSpeed = 0.01;
-                scale = 0.2;
+                targetScale = 0.2;
+
                 // Add interaction box
                 const interactionBox = document.createElement('div');
                 interactionBox.id = 'interactionBox';
                 document.body.appendChild(interactionBox);
 
                 // Add mouse event listeners
-                renderer.domElement.addEventListener('mousemove', onMouseMove);
-                renderer.domElement.addEventListener('mouseleave', onMouseLeave);
                 interactionBox.addEventListener('mouseenter', onMouseEnterInteractionBox);
                 interactionBox.addEventListener('mouseleave', onMouseLeaveInteractionBox);
             });
@@ -75,59 +73,41 @@
             window.addEventListener('resize', onWindowResize, false);
         }
 
-        // Handle window resize
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        // Handle mouse move event
-        function onMouseMove(event) {
+        function onMouseEnterInteractionBox() {
             if (model) {
-                const canvasBounds = renderer.domElement.getBoundingClientRect();
-                const mouseX = (event.clientX - canvasBounds.left) / canvasBounds.width;
-                const mouseY = (event.clientY - canvasBounds.top) / canvasBounds.height;
-
-                if (mouseX >= 0 && mouseX <= 1 && mouseY >= 0 && mouseY <= 1) {
-                    // Mouse is over the object
-                    model.scale.set(0.4, 0.4, 0.4);
-                } else {
-                    // Mouse is not over the object
-                    model.scale.set(0.2, 0.2, 0.2);
-                }
-                // Increase spin speed and scale
+                // Scale up and increase spin speed
+                targetScale = 0.4;
                 spinSpeed = 0.03;
-                scale = 0.4;
             }
         }
 
-        // Handle mouse leave event
-        function onMouseLeave() {
+        function onMouseLeaveInteractionBox() {
             if (model) {
-                // Reset the model's scale
-                model.scale.set(0.2, 0.2, 0.2);
-                // Reset spin speed and scale
+                // Scale down and reset spin speed
+                targetScale = 0.2;
                 spinSpeed = 0.01;
-                scale = 0.2;
             }
         }
 
-        // Animate the scene
         function animate() {
             requestAnimationFrame(animate);
 
             if (model) {
-                model.rotation.y += 0.01; // Rotate the model
-                model.rotation.y += spinSpeed; // Rotate the model
-                model.scale.set(scale, scale, scale); // Scale the model
+                model.rotation.y += spinSpeed;
+                model.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); // Smooth scaling
             }
+
             renderer.render(scene, camera);
         }
 
         init();
         animate();
-
     </script>
 </body>
 </html>
