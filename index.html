@@ -30,7 +30,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
-        let scene, camera, renderer, model, spinSpeed, targetScale;
+        let scene, camera, renderer, model1, model2, spinSpeed, targetScale;
 
         function init() {
             scene = new THREE.Scene();
@@ -48,13 +48,14 @@
             scene.add(light);
 
             const loader = new THREE.GLTFLoader();
+
             loader.load('assets/red-tv-web.glb', function (gltf) {
-                model = gltf.scene;
+                model1 = gltf.scene;
 
                 // Initial scale and position
-                model.scale.set(0.2, 0.2, 0.2);
-                model.position.set(0, 0, 0);
-                scene.add(model);
+                model1.scale.set(0.2, 0.2, 0.2);
+                model1.position.set(0, 0, 0);
+                scene.add(model1);
 
                 // Initialize spin speed and target scale
                 spinSpeed = 0.01;
@@ -70,6 +71,15 @@
                 interactionBox.addEventListener('mouseleave', onMouseLeaveInteractionBox);
             });
 
+            loader.load('assets/tv-play-hovering.glb', function (gltf) {
+                model2 = gltf.scene;
+
+                // Initial scale and position
+                model2.scale.set(0.2, 0.2, 0.2);
+                model2.position.set(0, 0, 0);
+                scene.add(model2);
+            });
+
             window.addEventListener('resize', onWindowResize, false);
         }
 
@@ -80,7 +90,7 @@
         }
 
         function onMouseEnterInteractionBox() {
-            if (model) {
+            if (model1 && model2) {
                 // Scale up and increase spin speed
                 targetScale = 0.4;
                 spinSpeed = 0.03;
@@ -88,7 +98,7 @@
         }
 
         function onMouseLeaveInteractionBox() {
-            if (model) {
+            if (model1 && model2) {
                 // Scale down and reset spin speed
                 targetScale = 0.2;
                 spinSpeed = 0.01;
@@ -98,9 +108,12 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            if (model) {
-                model.rotation.y += spinSpeed;
-                model.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); // Smooth scaling
+            if (model1 && model2) {
+                model1.rotation.y += spinSpeed;
+                model1.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); // Smooth scaling for model1
+
+                model2.rotation.y += spinSpeed;
+                model2.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); // Smooth scaling for model2
             }
 
             renderer.render(scene, camera);
