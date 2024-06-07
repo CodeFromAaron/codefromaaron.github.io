@@ -77,6 +77,7 @@
                 // Initial scale and position
                 model2.scale.set(0.2, 0.2, 0.2);
                 model2.position.set(0, 0, 0);
+                model2.visible = false; // Set to invisible initially
                 scene.add(model2);
             });
 
@@ -94,6 +95,7 @@
                 // Scale up and increase spin speed
                 targetScale = 0.4;
                 spinSpeed = 0.03;
+                model2.visible = true; 
             }
         }
 
@@ -102,6 +104,7 @@
                 // Scale down and reset spin speed
                 targetScale = 0.2;
                 spinSpeed = 0.01;
+                model2.visible = false; 
             }
         }
 
