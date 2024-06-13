@@ -30,9 +30,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
-        let scene, camera, renderer, model1, model2, spinSpeed, targetScale;
+        let scene, camera, renderer, model1, model2, spinSpeed, targetScale, staticMaterial;
 
-        function init() {
+        function loadShaderFile(url) {
+            return fetch(url)
+                .then(response => response.text());
+        }
+
+        async function init() {
             scene = new THREE.Scene();
 
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -71,17 +76,43 @@
                 interactionBox.addEventListener('mouseleave', onMouseLeaveInteractionBox);
             });
 
-            loader.load('assets/tv-play-hovering.glb', function (gltf) {
+            loader.load('assets/tv-play-hovering.glb', async function (gltf) {
                 model2 = gltf.scene;
 
                 // Initial scale and position
                 model2.scale.set(0.2, 0.2, 0.2);
                 model2.position.set(0, 0, 0);
                 model2.visible = false; // Set to invisible initially
+
+                // Load shaders
+                const vertexShader = await loadShaderFile('assets/shaders/vertexShader.glsl');
+                const fragmentShader = await loadShaderFile('assets/shaders/fragmentShader.glsl');
+
+                // Apply static effect material
+                model2.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material = createStaticMaterial(vertexShader, fragmentShader);
+                    }
+                });
+
                 scene.add(model2);
             });
 
             window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function createStaticMaterial(vertexShader, fragmentShader) {
+            const uniforms = {
+                time: { value: 0.0 }
+            };
+
+            staticMaterial = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader
+            });
+
+            return staticMaterial;
         }
 
         function onWindowResize() {
@@ -117,6 +148,11 @@
 
                 model2.rotation.y += spinSpeed;
                 model2.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); // Smooth scaling for model2
+
+                // Update static effect
+                if (staticMaterial) {
+                    staticMaterial.uniforms.time.value += 0.05;
+                }
             }
 
             renderer.render(scene, camera);
