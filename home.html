@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aaron HG | Under Construction</title>
+    <title>Aaron HG | My Digital Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <style>
         body {
             margin: 0;
@@ -14,20 +15,43 @@
         canvas {
             display: block;
         }
-        .loading-container {
+        .center-image-container {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            text-align: center;
-            color: #000;
-            font-family: 'Roboto', sans-serif;
             z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
-        .loading-text {
-            font-size: 52px;
-            font-weight: bold;
-            margin-bottom: 53px;
+        
+        .box-container {
+            position: absolute;
+            top: 31%;
+            left: 4%;
+            width: calc(88% - 20px); /* Reduce by 10px on each side */
+            height: calc(34% - 20px); /* Reduce by 10px on each side */
+            background-color: #1d1628;
+            z-index: -1; /* Place behind the image */
+        }
+        
+        .center-image {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        
+        .overlay-image {
+            position: absolute;
+            object-fit: contain;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.2;
+            
         }
     </style>
 </head>
@@ -97,8 +121,12 @@
     init();
 
     </script>
-    <div class="loading-container">
-        <div class="loading-text">Under Construction</div>
+    
+     <div class="center-image-container">
+    <div class="box-container"></div>
+        <img src="assets/telly.png" alt="Telly" class="center-image">
+        <img src="assets/tellyOverlay.png" class="overlay-image">
     </div>
+
 </body>
 </html>
