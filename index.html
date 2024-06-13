@@ -30,7 +30,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
-        let scene, camera, renderer, model1, model2, spinSpeed, targetScale, staticMaterial;
+        let scene, camera, renderer, model1, model2, spinSpeed, targetScale, staticMaterial, originalMaterials = {};
 
         function loadShaderFile(url) {
             return fetch(url)
@@ -54,8 +54,19 @@
 
             const loader = new THREE.GLTFLoader();
 
+            // Load shaders
+            const vertexShader = await loadShaderFile('assets/shaders/vertexShader.glsl');
+            const fragmentShader = await loadShaderFile('assets/shaders/fragmentShader.glsl');
+
             loader.load('assets/red-tv-web.glb', function (gltf) {
                 model1 = gltf.scene;
+
+                // Store original materials
+                model1.traverse(function (child) {
+                    if (child.isMesh) {
+                        originalMaterials[child.uuid] = child.material;
+                    }
+                });
 
                 // Initial scale and position
                 model1.scale.set(0.2, 0.2, 0.2);
@@ -66,37 +77,45 @@
                 spinSpeed = 0.01;
                 targetScale = 0.2;
 
+                
                 // Add interaction box
                 const interactionBox = document.createElement('div');
                 interactionBox.id = 'interactionBox';
                 document.body.appendChild(interactionBox);
 
                 // Add mouse event listeners
-                interactionBox.addEventListener('mouseenter', onMouseEnterInteractionBox);
+                interactionBox.addEventListener('mouseenter', function() {
+                    onMouseEnterInteractionBox(vertexShader, fragmentShader);
+                });
+                
                 interactionBox.addEventListener('mouseleave', onMouseLeaveInteractionBox);
+                interactionBox.addEventListener('click', onClickInteractionBox);
             });
 
-            loader.load('assets/tv-play-hovering.glb', async function (gltf) {
+            loader.load('assets/tv-play-hovering.glb', function (gltf) {
                 model2 = gltf.scene;
 
                 // Initial scale and position
                 model2.scale.set(0.2, 0.2, 0.2);
                 model2.position.set(0, 0, 0);
                 model2.visible = false; // Set to invisible initially
-
-                // Load shaders
-                const vertexShader = await loadShaderFile('assets/shaders/vertexShader.glsl');
-                const fragmentShader = await loadShaderFile('assets/shaders/fragmentShader.glsl');
-
-                // Apply static effect material
+                
+                // Set emissive color and intensity for each mesh
                 model2.traverse(function (child) {
                     if (child.isMesh) {
-                        child.material = createStaticMaterial(vertexShader, fragmentShader);
+                        child.material.emissiveMap = child.material.map;
+                        child.material.emissiveIntensity = 1; // Emission intensity
+                        child.material.transparent = true;
+                        child.material.opacity = 0.8;
+                        child.material.emissive = new THREE.Color(0x4CAF50); // Set to white color for emissive light
+                        child.material.needsUpdate = true; // Update material
+                        child.isMesh
                     }
                 });
 
                 scene.add(model2);
             });
+            
 
             window.addEventListener('resize', onWindowResize, false);
         }
@@ -121,12 +140,19 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
 
-        function onMouseEnterInteractionBox() {
+        function onMouseEnterInteractionBox(vertexShader, fragmentShader) {
             if (model1 && model2) {
                 // Scale up and increase spin speed
                 targetScale = 0.4;
                 spinSpeed = 0.03;
-                model2.visible = true; 
+                model2.visible = true;
+
+                // Apply static material to model1
+                model1.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material = createStaticMaterial(vertexShader, fragmentShader);
+                    }
+                });
             }
         }
 
@@ -135,9 +161,81 @@
                 // Scale down and reset spin speed
                 targetScale = 0.2;
                 spinSpeed = 0.01;
-                model2.visible = false; 
+                model2.visible = false;
+
+                // Revert to original material
+                model1.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material = originalMaterials[child.uuid];
+                    }
+                });
             }
         }
+        
+        function onClickInteractionBox() {
+            if (model1 && model2) {
+                // Stop spinning
+                spinSpeed = 0;
+                
+                // Reset rotations
+                model1.rotation.y = -45;
+                model2.rotation.y = -45;
+                
+                // Wait for 3 seconds (3000 milliseconds) and then make model1 invisible
+                setTimeout(() => {
+                    model1.visible = false;
+                }, 3000);
+                
+                // Create a plane that covers the whole screen with the shader material
+                const shaderPlaneGeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
+                const shaderPlaneMaterial = createStaticMaterial(staticMaterial.vertexShader, staticMaterial.fragmentShader);
+                const shaderPlane = new THREE.Mesh(shaderPlaneGeometry, shaderPlaneMaterial);
+                scene.add(shaderPlane);
+                
+                // Create a purple plane that covers the whole screen
+                const purplePlaneMaterial = new THREE.MeshBasicMaterial({ color: 0x1d1628, transparent: true, opacity: 1 });
+                const purplePlane = new THREE.Mesh(shaderPlaneGeometry, purplePlaneMaterial);
+                scene.add(purplePlane);
+
+                let opacity = 1;
+                const fadeOutSpeed = 0.01; // Adjust the speed of the fade-out
+
+                function fadeOut() {
+                    if (opacity > 0) {
+                        opacity -= fadeOutSpeed;
+
+                        // Change the opacity of the purple plane
+                        purplePlaneMaterial.opacity = opacity;
+
+                        // Change the opacity of model1 and model2
+                        model1.traverse(function (child) {
+                            if (child.isMesh) {
+                                child.material.opacity = opacity;
+                            }
+                        });
+
+                    model2.traverse(function (child) {
+                        if (child.isMesh) {
+                            child.material.opacity = opacity;
+                        }
+                    });
+                        
+                        requestAnimationFrame(fadeOut);
+                    }
+                }
+
+                // Call fadeOut after the planes are added to the scene
+                fadeOut();
+            }
+            
+            // Wait for 1 seconds (1000 milliseconds) and then make model1 invisible
+                setTimeout(() => {
+                window.location.href = 'home.html';
+                }, 1000);
+        }
+
+
+
 
         function animate() {
             requestAnimationFrame(animate);
