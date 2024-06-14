@@ -8,9 +8,11 @@ html, body {
     align-items: center;
     height: 100vh;
 }
-canvas {
+
+.canvas {
     display: block;
 }
+
 .center-image-container {
     position: absolute;
     top: 50%;
@@ -20,30 +22,44 @@ canvas {
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100vw; /* Adjusted width */
+    height: 100vh; /* Adjusted height */
 }
+
 .image-container {
     position: relative;
-    max-width: 90vw; /* Adjusted width */
-    max-height: 90vh; /* Adjusted height */
+    width: 100vw; /* Adjusted width */
+    height: 100vh; /* Adjusted height */
+    overflow: hidden; /* Clip images that exceed container size */
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .center-image {
-    max-width: 100%;
-    max-height: 100%;
+    width: 100vw; /* Adjusted width */
+    height: 100vh; /* Adjusted height */
+    object-fit: contain;
     display: block;
     opacity: 1;
 }
+
+
 .box-container {
     position: absolute;
-    top: 91px; /* Adjust as necessary */
-    left: 84px; /* Adjust as necessary */
-    width: calc(75% - 20px); /* Reduce by 10px on each side */
-    height: calc(68% - 20px); /* Reduce by 10px on each side */
+    left: 7%;
+    width: 67%; /* Adjusted width */
+    height: 57vh; /* Adjusted height */
+    object-fit: fill;
+    display: block;
+    opacity: 1;
+    padding-bottom: 7%; /* Adjusted height as a percentage of the parent container */
+    padding-right: 3%;
+    padding-left: 3%;
     background-color: #1d1628;
     z-index: -1; /* Place behind the image */
 }
+
 .overlay-image {
     position: absolute;
     top: 0;
@@ -53,23 +69,65 @@ canvas {
     object-fit: contain;
     opacity: 0.2;
 }
-@media (min-width: 800px) {
-    .image-container {
-       width: 109vw;
-    }
-}
-@media (max-width: 768px) {
-    .image-container {
-        min-width: 355vw; /* Adjust for mobile screens */
-        left: 3vw;
-    }
-    
-}
-.backdrop{
+
+.backdrop {
     position: absolute;
     top: 0;
     left: 0;
     width: calc(100% + 50px); /* Extend width by 20px */
     height: calc(100% + 50px); /* Extend height by 20px */
     overflow: auto; /* Enable scrolling if content exceeds window size */
+}
+
+
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1024px) {
+    .center-image-container {
+        width: 160vw; /* Adjusted width */
+    }
+    .overlay-image {
+        object-fit: none;
+    }
+    .box-container {
+        position: absolute;
+        left: 18%;
+        width: 92vw; /* Adjusted width as a percentage of the parent container */
+        height: 43%;
+        padding-bottom: 3%; /* Adjusted height as a percentage of the parent container */
+        padding-right: 3%;
+        padding-left: 3%;
+    }
+        .center-image {
+        object-fit:none; 
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .center-image-container {
+        width: 113vw; /* Adjusted width */
+        height: 160vh; /* Adjusted height */
+    }
+    .center-image {
+        max-width: 466vw; /* Adjusted width */
+        max-height: 100vh; /* Adjusted height */
+        display: block;
+    }
+    .overlay-image {
+        scale: 400%;
+    }
+    .box-container {
+        position: absolute;
+        left: 5%;
+        min-width: 95vw; /* Adjusted width as a percentage of the parent container */
+        min-height: 68vh;
+        padding-bottom: 3%; /* Adjusted height as a percentage of the parent container */
+        padding-right: 3%;
+        padding-left: 3%;
+
+    }
+    .center-image {
+        object-fit:none; 
+    }
 }
