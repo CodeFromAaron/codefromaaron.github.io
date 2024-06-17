@@ -55,18 +55,20 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
-    width: calc(100% + 50px); /* Extend width by 20px */
-    height: calc(100% + 50px); /* Extend height by 20px */
-    overflow: auto; /* Enable scrolling if content exceeds window size */
+    width: calc(100% + 50px); /* Extend width*/
+    height: calc(100% + 50px); /* Extend height */
+    overflow:visible;
 }
 
-.box-container {
+
+.site-box{
+    flex: inherit;
+    padding-bottom: 44%;
+    width: 88%;
     position: absolute;
-    background-color: #1d1628;
-    z-index: -1; /* Place behind the image */
+    background-color: #1d1628;;
+    z-index: -1;
 }
-
-
 
 
 /* Tablet */
@@ -95,10 +97,23 @@ html, body {
         display: block;
     }
     .overlay-image {
-        scale: 400%;
+        object-fit: none;
     }
 
     .center-image {
         object-fit:none; 
+    }
+    
+    .site-box{
+            min-height: calc(100% - 134vh);
+            width: 100%;
+    }
+    
+}
+
+@media (max-width: 399px){
+        .site-box{
+            min-height: calc(100% - 122vh);
+            width: 100%;
     }
 }
