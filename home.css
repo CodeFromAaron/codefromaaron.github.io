@@ -55,8 +55,6 @@ html, body {
     position: absolute;
     top: 0;
     left: 0;
-    width: calc(100% + 50px); /* Extend width*/
-    height: calc(100% + 50px); /* Extend height */
     overflow:visible;
 }
 
@@ -105,15 +103,15 @@ html, body {
     }
     
     .site-box{
-            min-height: calc(100% - 134vh);
+            min-height: calc(100% - 104vh);
             width: 100%;
     }
     
 }
 
-@media (max-width: 399px){
+@media (max-width: 344px){
         .site-box{
-            min-height: calc(100% - 122vh);
+            min-height: calc(100% - 116vh);
             width: 100%;
     }
 }
