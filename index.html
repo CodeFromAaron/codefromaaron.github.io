@@ -77,7 +77,6 @@
                 spinSpeed = 0.01;
                 targetScale = 0.2;
 
-                
                 // Add interaction box
                 const interactionBox = document.createElement('div');
                 interactionBox.id = 'interactionBox';
@@ -109,13 +108,11 @@
                         child.material.opacity = 0.8;
                         child.material.emissive = new THREE.Color(0x4CAF50); // Set to white color for emissive light
                         child.material.needsUpdate = true; // Update material
-                        child.isMesh
                     }
                 });
 
                 scene.add(model2);
             });
-            
 
             window.addEventListener('resize', onWindowResize, false);
         }
@@ -171,27 +168,37 @@
                 });
             }
         }
-        
+
+        function removeEventListeners() {
+            const interactionBox = document.getElementById('interactionBox');
+            interactionBox.removeEventListener('mouseenter', onMouseEnterInteractionBox);
+            interactionBox.removeEventListener('mouseleave', onMouseLeaveInteractionBox);
+            interactionBox.removeEventListener('click', onClickInteractionBox);
+        }
+
         function onClickInteractionBox() {
             if (model1 && model2) {
                 // Stop spinning
                 spinSpeed = 0;
-                
+
                 // Reset rotations
                 model1.rotation.y = -45;
                 model2.rotation.y = -45;
-                
+
+                // Remove event listeners
+                removeEventListeners();
+
                 // Wait for 3 seconds (3000 milliseconds) and then make model1 invisible
                 setTimeout(() => {
                     model1.visible = false;
                 }, 3000);
-                
+
                 // Create a plane that covers the whole screen with the shader material
                 const shaderPlaneGeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
                 const shaderPlaneMaterial = createStaticMaterial(staticMaterial.vertexShader, staticMaterial.fragmentShader);
                 const shaderPlane = new THREE.Mesh(shaderPlaneGeometry, shaderPlaneMaterial);
                 scene.add(shaderPlane);
-                
+
                 // Create a purple plane that covers the whole screen
                 const purplePlaneMaterial = new THREE.MeshBasicMaterial({ color: 0x1d1628, transparent: true, opacity: 1 });
                 const purplePlane = new THREE.Mesh(shaderPlaneGeometry, purplePlaneMaterial);
@@ -214,12 +221,12 @@
                             }
                         });
 
-                    model2.traverse(function (child) {
-                        if (child.isMesh) {
-                            child.material.opacity = opacity;
-                        }
-                    });
-                        
+                        model2.traverse(function (child) {
+                            if (child.isMesh) {
+                                child.material.opacity = opacity;
+                            }
+                        });
+
                         requestAnimationFrame(fadeOut);
                     }
                 }
@@ -227,15 +234,12 @@
                 // Call fadeOut after the planes are added to the scene
                 fadeOut();
             }
-            
+
             // Wait for 3 seconds (3000 milliseconds) and then make model1 invisible
-                setTimeout(() => {
+            setTimeout(() => {
                 window.location.href = 'home.html';
-                }, 3000);
+            }, 3000);
         }
-
-
-
 
         function animate() {
             requestAnimationFrame(animate);

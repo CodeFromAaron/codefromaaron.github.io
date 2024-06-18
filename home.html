@@ -11,7 +11,7 @@
     <div class="backdrop">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
         <script src="staticAnimation.js"></script>
-    </div>    
+    </div>        
     <div class="center-image-container">
         <div class="image-container">
              
@@ -79,6 +79,11 @@
                 </div>
             </div>
     </div> 
-    
+    <script> 
+        var contents = document.querySelector(".center-image-container");
+        window.addEventListener("load", function() {
+        contents.style.opacity = 1; // Fade in the exit button
+        });
+    </script>
 </body>
 </html>

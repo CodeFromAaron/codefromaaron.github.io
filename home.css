@@ -25,6 +25,10 @@ html, body {
     align-items: center;
     width: 100vw; /* Adjusted width */
     height: 100vh; /* Adjusted height */
+    
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    
 }
 
 .image-container {
