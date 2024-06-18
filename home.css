@@ -7,6 +7,7 @@ html, body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    pointer-events: none; /* Ignore mouse events on this element */
 }
 
 .canvas {
@@ -57,14 +58,25 @@ html, body {
 }
 
 
-.site-box{
+.site-box {
     flex: inherit;
-    padding-bottom: 44%;
-    width: 93%;
+    width: 88%;
+    height: 69%;
+    padding-right: 10%;
     position: absolute;
-    background-color: #1d1628;;
+    background-color: #1d1628;
     z-index: -1;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    pointer-events: auto; /* Ignore mouse events on this element */
 }
+
+iframe {
+    width: 96%;
+    height: 86%;
+    background-color: #ff5af2;
+}
+
+
 
 
 /*Telly Moving Parts*/
@@ -149,6 +161,14 @@ html, body {
     .btm-pointer, .btm-tuner, .fm-pointer, .redlines, .static-switches {
         visibility: hidden;
     }
+    
+    iframe {
+    width: 115%;
+    height: 86%;
+    background-color: #ff5af2;
+}
+
+    
 }
 
 @media (max-width: 344px){
@@ -162,5 +182,13 @@ html, body {
         width: 100%;
         height: 100%;
         padding-bottom: 10%;
+        padding-top: 10%;
     }
+    
+    iframe {
+    width: 120%;
+    height: 16%;
+    background-color: rgba(255, 255, 255, 0);
+}
+    
 }
