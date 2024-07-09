@@ -35,7 +35,7 @@
                     <img src="assets/vidLoadIn.gif" class="vid-load-in">
                     <img src="assets/HeadOpenHold.gif" class="head-open-hold">
                     <div class="exit-vid" onclick="closeVid()">X</div>
-                    <iframe src="https://player.vimeo.com/video/840401171" width="94.5%" height="97.5%" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+                    <iframe src="https://player.vimeo.com/video/840401171" title="showreel" width="94.5%" height="97.5%" allow="autoplay; fullscreen" allowfullscreen></iframe>
                 </div>
 
                     <script>
@@ -56,6 +56,7 @@
                             headHold.style.display = "block";
                             iframe.style.opacity = 1; // Fade in the iframe
                             exitButton.style.opacity = 1; // Fade in the exit button
+                            exitButton.style.pointerEvents = "auto";
                             iframe.style.pointerEvents = "auto";
                         }, 3000); // Change back to headbobble gif after 3 seconds (3000 milliseconds)
                     }
@@ -73,6 +74,7 @@
                             img.style.display = "block"; // Show the headbobble gif
                             iframe.style.opacity = 0; // Hide the iframe
                             exitButton.style.opacity = 0; // Hide the exit button
+                            exitButton.style.pointerEvents = "none";
                             iframe.style.pointerEvents = "none"; // Disable pointer events for the iframe
                         }
                     </script>

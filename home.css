@@ -108,6 +108,7 @@ iframe {
     font-weight: bold;
     font-size: large;
     display: inline-block; /* Make background form to the text shape */
+    pointer-events: none;
 }
 
 .exit-vid:hover {
@@ -232,34 +233,34 @@ iframe {
     }
     
     iframe{
-        height: 79%;
-        width: 201%;
-        padding-left: 30%;
+        height: 70%;
+        width: 100%;
+        padding: 2%;
     }
     
     .exit-vid{
-        top: 4%;
-        left: 3%;
+        top: 12%;
+        left: 7%;
     }
     
     .head-float {
         max-width: 100%;
         max-height: 100%;
-        left: 21%;
+        left: 1%;
         bottom: 11%;
     }
 
     .vid-load-in{
         height: 100%;
-        width: 152%;
-        left: -23%;
-        bottom: 3%;
+        width: 251%;
+        left: -60%;
+        bottom: 4%;
     }
 
     .head-open-hold{
         height: 100%;
-        width: 126%;
-        left: -10%;
+        width: 251%;
+        left: -70%;
         bottom: 4%;
     }
     
@@ -280,35 +281,37 @@ iframe {
     }
     
     iframe {
-    width: 82%;
-    height: 16%;
+    width: 100%;
+    height: auto;
     z-index: 2;
+    top: 30%
     }
     
     .head-float {
         max-width: 100%;
         max-height: 100%;
         left: 1%;
-        bottom: 70%;
+        bottom: auto;
     }
 
     .vid-load-in{
-        height: 15%;
-        width: 127%;
-        left: -10%;
-        bottom: 82%;
+        height: auto;
+        width: 213%;
+        left: -52%;
+        bottom: 21%;
+        z-index: -1;
     }
 
     .head-open-hold{
-        height: 15%;
-        width: 127%;
-        left: -10%;
-        bottom: 82%;
+        height: auto;
+        width: 213%;
+        left: -52%;
+        bottom: 21%;
         z-index: -1;
     }
     .exit-vid{
-        top: 1%;
-        left: 2%;
+        top: 67%;
+        left: 41%;
     }
     }
 }

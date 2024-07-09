@@ -24,9 +24,36 @@
             background-color: transparent;
             border: 1px solid transparent;
         }
+        .purple-pointer{
+            position: absolute;
+            width: 2.5%;
+            height: auto;
+            transition: opacity 0.5s ease-in-out;
+            animation: movePointer 2s ease-in-out infinite alternate;
+            opacity: 0;
+        }
+
+        @keyframes movePointer {
+            0% {
+            top: 50%;
+            left: 53.5%;
+            }
+            100% {
+            top: 48%;
+            left: 52.5%;
+            }
+        }
     </style>
 </head>
 <body>
+       <img src="assets/pointer-purple.png" class="purple-pointer" id="purple-pointer">
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('purple-pointer').style.opacity = '1';
+            }, 6000);
+        });
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
     <script>
@@ -138,6 +165,7 @@
         }
 
         function onMouseEnterInteractionBox(vertexShader, fragmentShader) {
+            document.getElementById('purple-pointer').style.opacity = '0';
             if (model1 && model2) {
                 // Scale up and increase spin speed
                 targetScale = 0.4;
@@ -154,6 +182,7 @@
         }
 
         function onMouseLeaveInteractionBox() {
+            document.getElementById('purple-pointer').style.opacity = '1';
             if (model1 && model2) {
                 // Scale down and reset spin speed
                 targetScale = 0.2;
@@ -177,6 +206,7 @@
         }
 
         function onClickInteractionBox() {
+            document.getElementById('purple-pointer').style.opacity = '0';
             if (model1 && model2) {
                 // Stop spinning
                 spinSpeed = 0;
