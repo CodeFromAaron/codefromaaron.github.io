@@ -1,0 +1,57 @@
+body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #1d1628;
+        }
+        canvas {
+            display: block;
+        }
+        #interactionBox {
+            position: absolute;
+            top: 48%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background-color: transparent;
+            border: 1px solid transparent;
+        }
+        .purple-pointer{
+            position: absolute;
+            width: 2.5%;
+            height: auto;
+            transition: opacity 0.5s ease-in-out;
+            animation: movePointer 2s ease-in-out infinite alternate;
+            opacity: 0;
+        }
+
+        @keyframes movePointer {
+            0% {
+            top: 52%;
+            left: 55.5%;
+            }
+            100% {
+            top: 49%;
+            left: 53.5%;
+            }
+        }
+
+    /* Mobile */
+    @media (max-width: 767px) {
+            .purple-pointer{
+            width: 7.4%;
+            height: auto;
+            }
+        
+            @keyframes movePointer {
+            0% {
+            top: 52%;
+            left: 67.7%;
+            }
+            100% {
+            top: 49%;
+            left: 61%;
+            }
+        }
+        
+    }

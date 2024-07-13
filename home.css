@@ -192,6 +192,10 @@ iframe {
 
 
 
+.copywrite-line{
+    font-size: medium; position: absolute; left: 24px; bottom: 0; font-family: 'Trebuchet MS', sans-serif; background-color: rgba(0, 0, 0, 0); color: rgba(29, 22, 40, 0.71); padding: 20px; text-align: center;
+}
+
 /* Tablet 
 @media (min-width: 768px) and (max-width: 1024px) {
     .center-image-container {
@@ -264,7 +268,12 @@ iframe {
         bottom: 4%;
     }
     
-    
+    footer, .copywrite-line{
+        font-size: small;
+        left: 0;
+        width: 100%;
+    }
+}
 
 @media (max-width: 344px){
     .center-image, .overlay-image, .btm-tuner-static, .static-switches {
@@ -313,5 +322,10 @@ iframe {
         top: 67%;
         left: 41%;
     }
+    footer, .copywrite-line{
+        z-index: 1;
+        color: rgba(255, 186, 236, 0.68);
+        font-size: x-small;
+        left: 0;
     }
 }
