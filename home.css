@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     margin: 0;
     overflow: hidden;
     background-color: #1d1628;
@@ -25,10 +26,9 @@ html, body {
     align-items: center;
     width: 100vw; /* Adjusted width */
     height: 100vh; /* Adjusted height */
-    
+
     opacity: 0;
     transition: opacity 1s ease-in-out;
-    
 }
 
 .image-container {
@@ -39,7 +39,9 @@ html, body {
     overflow: hidden;
 }
 
-.center-image, .overlay-image, .redlines {
+.center-image,
+.overlay-image,
+.redlines {
     width: 100%;
     height: 100%;
     max-width: 100%; /* Ensure image does not exceed container */
@@ -50,18 +52,16 @@ html, body {
 }
 .overlay-image {
     position: absolute;
-    opacity: .2;
+    opacity: 0.2;
     z-index: 3;
 }
-
 
 .backdrop {
     position: absolute;
     top: 0;
     left: 0;
-    overflow:visible;
+    overflow: visible;
 }
-
 
 .site-box {
     flex: inherit;
@@ -102,7 +102,10 @@ iframe {
     border: none; /* No border */
     border-radius: 5px; /* Rounded corners */
     cursor: pointer; /* Cursor style */
-    transition: background-color 0.3s, color 0.3s, opacity 1s ease; /* Smooth color transition */
+    transition:
+        background-color 0.3s,
+        color 0.3s,
+        opacity 1s ease; /* Smooth color transition */
     z-index: 2;
     font-family: cursive;
     font-weight: bold;
@@ -116,7 +119,6 @@ iframe {
     background-color: rgba(200, 100, 200, 0.7); /* Lighten background on hover */
 }
 
-
 .head-float {
     position: absolute;
     max-width: 100%;
@@ -127,7 +129,7 @@ iframe {
     bottom: 11%;
 }
 
-.vid-load-in{
+.vid-load-in {
     position: absolute;
     height: 100%;
     width: 93%;
@@ -137,7 +139,7 @@ iframe {
     bottom: 9%;
 }
 
-.head-open-hold{
+.head-open-hold {
     position: absolute;
     height: 100%;
     width: 93%;
@@ -148,20 +150,22 @@ iframe {
     z-index: -1;
 }
 
-
 /*Telly Moving Parts*/
-.redlines, .fm-pointer, .btm-pointer, .static-switches {
+.redlines,
+.fm-pointer,
+.btm-pointer,
+.static-switches {
     position: absolute;
 }
 
-.fm-pointer{
+.fm-pointer {
     z-index: 0;
     left: 87.2%;
     height: 3%;
     width: 3%;
 }
 
-.btm-pointer{
+.btm-pointer {
     z-index: 2;
     left: 48.2%;
     top: 88.1%;
@@ -175,13 +179,12 @@ iframe {
     width: 100%;
 }
 
-
-.redlines{
+.redlines {
     z-index: 2;
     opacity: 0.8;
 }
 
-.btm-tuner-static{
+.btm-tuner-static {
     visibility: hidden;
     position: absolute;
 }
@@ -190,10 +193,16 @@ iframe {
     width: 100%;
 }
 
-
-
-.copywrite-line{
-    font-size: medium; position: absolute; left: 24px; bottom: 0; font-family: 'Trebuchet MS', sans-serif; background-color: rgba(0, 0, 0, 0); color: rgba(29, 22, 40, 0.71); padding: 20px; text-align: center;
+.copywrite-line {
+    font-size: medium;
+    position: absolute;
+    left: 24px;
+    bottom: 0;
+    font-family: "Trebuchet MS", sans-serif;
+    background-color: rgba(0, 0, 0, 0);
+    color: rgba(29, 22, 40, 0.71);
+    padding: 20px;
+    text-align: center;
 }
 
 /* Tablet 
@@ -212,41 +221,45 @@ iframe {
 
 /* Mobile */
 @media (max-width: 767px) {
+    .center-image,
+    .overlay-image {
+        width: 400%;
+        height: 100%;
+        max-width: 400%; /* Ensure image does not exceed container */
+        max-height: 400%; /* Ensure image does not exceed container */
+        display: block;
+        object-fit: fill; /* Preserve aspect ratio and fit within container */
+    }
 
-.center-image, .overlay-image {
-    width: 400%;
-    height: 100%;
-    max-width: 400%; /* Ensure image does not exceed container */
-    max-height: 400%; /* Ensure image does not exceed container */
-    display: block;
-    object-fit: fill; /* Preserve aspect ratio and fit within container */
-}
-    
-    .site-box{
+    .site-box {
         height: 68%;
         width: 100%;
         padding-bottom: 0%;
     }
-    
-    .btm-tuner-static{
+
+    .btm-tuner-static {
         visibility: visible;
     }
 
-    .btm-pointer, .btm-tuner, .fm-pointer, .redlines, .static-switches {
+    .btm-pointer,
+    .btm-tuner,
+    .fm-pointer,
+    .redlines,
+    .static-switches {
         visibility: hidden;
     }
-    
-    iframe{
+
+    iframe {
         height: 70%;
         width: 100%;
         padding: 2%;
     }
-    
-    .exit-vid{
+
+    .exit-vid {
         top: 12%;
         left: 7%;
     }
-    
+
     .head-float {
         max-width: 100%;
         max-height: 100%;
@@ -254,32 +267,36 @@ iframe {
         bottom: 11%;
     }
 
-    .vid-load-in{
+    .vid-load-in {
         height: 100%;
         width: 251%;
         left: -60%;
         bottom: 4%;
     }
 
-    .head-open-hold{
+    .head-open-hold {
         height: 100%;
         width: 251%;
         left: -70%;
         bottom: 4%;
     }
-    
-    footer, .copywrite-line{
+
+    footer,
+    .copywrite-line {
         font-size: small;
         left: 0;
         width: 100%;
     }
 }
 
-@media (max-width: 344px){
-    .center-image, .overlay-image, .btm-tuner-static, .static-switches {
-        visibility: hidden
+@media (max-width: 344px) {
+    .center-image,
+    .overlay-image,
+    .btm-tuner-static,
+    .static-switches {
+        visibility: hidden;
     }
-    .site-box{
+    .site-box {
         position: fixed;
         top: 0;
         left: 0;
@@ -288,14 +305,14 @@ iframe {
         padding-bottom: 10%;
         padding-top: 10%;
     }
-    
+
     iframe {
-    width: 100%;
-    height: auto;
-    z-index: 2;
-    top: 30%
+        width: 100%;
+        height: auto;
+        z-index: 2;
+        top: 30%;
     }
-    
+
     .head-float {
         max-width: 100%;
         max-height: 100%;
@@ -303,7 +320,7 @@ iframe {
         bottom: auto;
     }
 
-    .vid-load-in{
+    .vid-load-in {
         height: auto;
         width: 213%;
         left: -52%;
@@ -311,18 +328,19 @@ iframe {
         z-index: -1;
     }
 
-    .head-open-hold{
+    .head-open-hold {
         height: auto;
         width: 213%;
         left: -52%;
         bottom: 21%;
         z-index: -1;
     }
-    .exit-vid{
+    .exit-vid {
         top: 67%;
         left: 41%;
     }
-    footer, .copywrite-line{
+    footer,
+    .copywrite-line {
         z-index: 1;
         color: rgba(255, 186, 236, 0.68);
         font-size: x-small;
