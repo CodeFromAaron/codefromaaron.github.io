@@ -248,7 +248,7 @@ iframe {
 /* Navigation Menu */
 .navigation-menu {
     position: absolute;
-    bottom: 39%;
+    bottom: 32%;
     left: 44.5%;
     transform: translateX(-50%);
     background-color: #2e003e; /* Dark purple background */
