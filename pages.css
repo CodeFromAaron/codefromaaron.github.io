@@ -26,9 +26,6 @@ body {
     align-items: center;
     width: 100vw; /* Adjusted width */
     height: 100vh; /* Adjusted height */
-
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
 }
 
 .image-container {
@@ -248,29 +245,33 @@ iframe {
 /* Navigation Menu */
 .navigation-menu {
     position: absolute;
-    bottom: 41%;
-    left: 44.5%;
+    bottom: 47%;
+    left: 12%;
     transform: translateX(-50%);
     background-color: #2e003e; /* Dark purple background */
-    padding: 7px 8px; /* Moderate padding for a balanced button size */
+    padding: 10px; /* Adjusted padding for a balanced button size */
     border-radius: 15px; /* Rounded corners for a smooth button shape */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: for a shadow effect */
     font-family: 'Lato', sans-serif; /* Apply Lato font */
     z-index: 10; /* Ensure it is on top */
+    display: flex; /* Use flexbox to stack items vertically */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
 }
 
-/* Style the list for horizontal stacking and centering */
+/* Style the list for vertical stacking and centering */
 .navigation-menu ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
-    display: flex; /* Stack items horizontally */
-    justify-content: center; /* Center items horizontally */
+    display: flex; /* Use flexbox */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
 }
 
 /* Style the list items */
 .navigation-menu li {
-    margin: 0 12px; /* Slightly smaller horizontal space between items */
+    margin: 8px 0; /* Vertical space between items */
 }
 
 /* Style the links */
@@ -279,16 +280,18 @@ iframe {
     color: #e2aaff; /* Light purple text color */
     font-weight: bold;
     font-size: 14px; /* Adjusted font size for a balanced look */
-    padding: 8px 9px; /* Moderate padding around text */
+    padding: 8px 12px; /* Adjusted padding around text */
     border-radius: 15px; /* Rounded corners for a smooth button shape */
     display: inline-block; /* Ensure padding and border-radius are applied */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
 }
 
 /* Style the links on hover */
 .navigation-menu a:hover {
     color: #e6c8ff; /* Lighter purple hover color */
-    background-color: #3c0056; /* Optional: add a hover background color for better visual feedback */
+    background-color: #3c0056; /* Hover background color for better visual feedback */
 }
+
 
 
 
@@ -375,148 +378,9 @@ iframe {
         left: 0;
         width: 100%;
     }
-    
-        body {
-            font-family: "Lato", sans-serif;
-            font-weight: 10;
-            font-size: 5vw;
-        }
-        .about-me {
-            padding: 0px;
-            padding-top: 40px;
-            padding-left: 42px;
-            z-index: 1;
-            color: white;
-            height:  20%;
-            border-radius: 10px;
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        .about-me h2 {
-            font-size: 11vw;
-            text-transform: uppercase;
-            line-height: 1.2;
-            margin: 0;
-        }
-        .fancy {
-            position: relative;
-            white-space: nowrap;
-        }
-        .fancy:after {
-            --deco-height: 0.3125em;
-            content: "";
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: calc(var(--deco-height) * -0.625);
-            height: var(--deco-height);
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='64' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23a)'%3E%3Cpath d='M-17 30.5C-1 22 72-4 54 13 37.9 28.2-2.5 57.5 16 55.5s72-29 104-40' stroke='%2300FDCF' stroke-width='10'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='a'%3E%3Cpath fill='%23fff' d='M0 0h100v64H0z'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
-            background-size: auto 100%;
-            background-repeat: round;
-        }
-    /* Navigation Menu */
-.navigation-menu {
-    position: absolute;
-    bottom: 14.5%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #2e003e; /* Dark purple background */
-    padding: 4px; /* Adjusted padding for a balanced button size */
-    border-radius: 15px; /* Rounded corners for a smooth button shape */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: for a shadow effect */
-    font-family: 'Lato', sans-serif; /* Apply Lato font */
-    z-index: 10; /* Ensure it is on top */
-    display: flex; /* Use flexbox to stack items vertically */
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
 }
-
-/* Style the list for vertical stacking and centering */
-.navigation-menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex; /* Use flexbox */
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center items horizontally */
-}
-
-/* Style the list items */
-.navigation-menu li {
-    margin: 8px 0; /* Vertical space between items */
-}
-
-/* Style the links */
-.navigation-menu a {
-    text-decoration: none;
-    color: #e2aaff; /* Light purple text color */
-    font-weight: bold;
-    font-size: 14px; /* Adjusted font size for a balanced look */
-    padding: 8px 13px; /* Adjusted padding around text */
-    border-radius: 15px; /* Rounded corners for a smooth button shape */
-    display: inline-block; /* Ensure padding and border-radius are applied */
-    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
-}
-
-/* Style the links on hover */
-.navigation-menu a:hover {
-    color: #e6c8ff; /* Lighter purple hover color */
-    background-color: #3c0056; /* Hover background color for better visual feedback */
-}
-
-    
-    
 
 @media (max-width: 344px) {
-    
-    /* Navigation Menu */
-.navigation-menu {
-    position: absolute;
-    bottom: 11%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #2e003e; /* Dark purple background */
-    padding: 7px 8px; /* Moderate padding for a balanced button size */
-    border-radius: 15px; /* Rounded corners for a smooth button shape */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Optional: for a shadow effect */
-    font-family: 'Lato', sans-serif; /* Apply Lato font */
-    z-index: 10; /* Ensure it is on top */
-}
-
-/* Style the list for horizontal stacking and centering */
-.navigation-menu ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex; /* Stack items horizontally */
-    justify-content: center; /* Center items horizontally */
-}
-
-/* Style the list items */
-.navigation-menu li {
-    margin: 0 12px; /* Slightly smaller horizontal space between items */
-}
-
-/* Style the links */
-.navigation-menu a {
-    text-decoration: none;
-    color: #e2aaff; /* Light purple text color */
-    font-weight: bold;
-    font-size: 14px; /* Adjusted font size for a balanced look */
-    padding: 8px 9px; /* Moderate padding around text */
-    border-radius: 15px; /* Rounded corners for a smooth button shape */
-    display: inline-block; /* Ensure padding and border-radius are applied */
-}
-
-/* Style the links on hover */
-.navigation-menu a:hover {
-    color: #e6c8ff; /* Lighter purple hover color */
-    background-color: #3c0056; /* Optional: add a hover background color for better visual feedback */
-}
-
-    
-    
     .center-image,
     .overlay-image,
     .btm-tuner-static,
@@ -572,7 +436,5 @@ iframe {
         color: rgba(255, 186, 236, 0.68);
         font-size: x-small;
         left: 0;
-    }
-
     }
 }

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Aaron HG | Showreel</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="stylesheet" href="pages.css" />
+    </head>
+    <body>
+        <div class="backdrop">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+            <script src="staticAnimation.js"></script>
+        </div>
+
+        <div class="center-image-container">
+            <div class="image-container">
+                <img src="assets/telly.png" class="center-image" />
+                <img src="assets/tellyOverlay.png" class="overlay-image" />
+
+                <img src="assets/fm-redlines.png" class="redlines" />
+                <img src="assets/fm-pointer.png" class="fm-pointer" />
+
+                <img src="assets/bottom-tuner.png" class="btm-tuner" />
+                <img src="assets/bottom-tuner-static.png" class="btm-tuner-static" />
+                <img src="assets/bottom-pointer.png" class="btm-pointer" />
+
+                <img src="assets/switches-static.png" class="static-switches" />
+
+                <script src="telly.js"></script>
+
+                <div class="site-box">
+                    <!-- Navigation Menu -->
+                    <nav class="navigation-menu">
+                        <ul>
+                            <li><a href="showreel.html">Showreel</a></li>
+                            <li>
+                                <a href="https://aaron-hamiltongold.wixsite.com/aaronhg2023/sffwork" target="_blank">Work</a>
+                            </li>
+                            <li><a href="https://www.linkedin.com/in/aaronhg/" target="_blank">LinkedIn</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </nav>
+
+                    <div class="videoHolder">
+                        <img src="assets/headbobble-slow-v2.gif" class="head-float" onclick="changeGif()" />
+                        <img src="assets/vidLoadIn.gif" class="vid-load-in" />
+                        <img src="assets/HeadOpenHold.gif" class="head-open-hold" />
+                        <div class="exit-vid" onclick="closeVid()">X</div>
+                        <iframe
+                            src="https://player.vimeo.com/video/840401171"
+                            style="border: none"
+                            title="showreel"
+                            width="94.5%"
+                            height="97.5%"
+                            allow="autoplay; fullscreen"
+                            allowfullscreen></iframe>
+                    </div>
+
+                    <script>
+    function changeGif() {
+        var img = document.querySelector(".head-float");
+        var vidLoadIn = document.querySelector(".vid-load-in");
+        var headHold = document.querySelector(".head-open-hold");
+        var iframe = document.querySelector("iframe");
+        var exitButton = document.querySelector(".exit-vid");
+        var navigationMenu = document.querySelector(".navigation-menu");
+
+        headHold.style.display = "none";
+        vidLoadIn.style.display = "block"; // Show the vidLoadIn.gif
+        vidLoadIn.src = vidLoadIn.src; // Reset the src to start the GIF from the beginning
+        img.style.display = "none"; // Hide the headbobble gif
+
+        // Make navigation menu non-interactive and invisible
+        navigationMenu.style.pointerEvents = "none"; // Disable interactions
+        navigationMenu.style.opacity = "0"; // Slightly fade the menu for visual effect
+
+        setTimeout(function () {
+            vidLoadIn.style.display = "none"; // Hide the vidLoadIn.gif
+            headHold.style.display = "block";
+            iframe.style.opacity = 1; // Fade in the iframe
+            exitButton.style.opacity = 1; // Fade in the exit button
+            exitButton.style.pointerEvents = "auto";
+            iframe.style.pointerEvents = "auto";
+
+        }, 3000); // Change back to headbobble gif after 3 seconds (3000 milliseconds)
+    }
+
+    function closeVid() {
+        var img = document.querySelector(".head-float");
+        var vidLoadIn = document.querySelector(".vid-load-in");
+        var headHold = document.querySelector(".head-open-hold");
+        var iframe = document.querySelector("iframe");
+        var exitButton = document.querySelector(".exit-vid");
+        var navigationMenu = document.querySelector(".navigation-menu");
+
+        vidLoadIn.style.display = "none"; // Hide the vidLoadIn.gif
+        headHold.style.display = "none"; // Hide the HeadOpenHold.gif
+        img.style.display = "block"; // Show the headbobble gif
+        iframe.style.opacity = "0"; // Hide the iframe
+        exitButton.style.opacity = "0"; // Hide the exit button
+        exitButton.style.pointerEvents = "none";
+        
+        // Restore navigation menu
+        navigationMenu.style.pointerEvents = "auto"; // Enable interactions
+        navigationMenu.style.opacity = "1"; // Restore opacity
+        
+        iframe.style.pointerEvents = "none"; // Disable pointer events for the iframe
+        }
+</script>
+
+                </div>
+            </div>
+
+        </div>
+
+        <footer>
+            <div class="copywrite-line">
+                <p style="margin: 0">
+                    &copy; 2024
+                    <a
+                        href="https://codefromaaron.github.io/"
+                        style="color: rgba(226, 173, 255, 0.75); text-decoration: none"
+                        >Aaron Hamilton Gold</a
+                    >. All Rights Reserved.
+                </p>
+            </div>
+        </footer>
+    </body>
+</html>
