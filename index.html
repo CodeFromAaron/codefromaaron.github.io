@@ -32,17 +32,7 @@
             
             <div class="site-box">
                
-                <div class="about-me" id="about-me">
-                    <h2>Hey there, I’m <span class="fancy">Aaron!</span></h2>
-                    <p>
-                        I’m a video motion graphics designer passionate about collaboration on projects that balance curiosity with practicality,
-                        making design decisions based on user and business needs.
-                    </p>
-                </div>
-
-               
-
-                    <div class="videoHolder">
+                        <div class="videoHolder">
                         <img src="assets/headbobble-slow-v2.gif" class="head-float" onclick="changeGif()" />
                         <img src="assets/vidLoadIn.gif" class="vid-load-in" />
                         <img src="assets/HeadOpenHold.gif" class="head-open-hold" />
@@ -57,90 +47,23 @@
                             allowfullscreen></iframe>
                     </div>
 
-                    <script>
-    function changeGif() {
-        var img = document.querySelector(".head-float");
-        var vidLoadIn = document.querySelector(".vid-load-in");
-        var headHold = document.querySelector(".head-open-hold");
-        var iframe = document.querySelector("iframe");
-        var exitButton = document.querySelector(".exit-vid");
-        var navigationMenu = document.querySelector(".navigation-menu");
-
-        headHold.style.display = "none";
-        vidLoadIn.style.display = "block"; // Show the vidLoadIn.gif
-        vidLoadIn.src = vidLoadIn.src; // Reset the src to start the GIF from the beginning
-        img.style.display = "none"; // Hide the headbobble gif
-
-        // Make navigation menu non-interactive and invisible
-        navigationMenu.style.pointerEvents = "none"; // Disable interactions
-        navigationMenu.style.opacity = "0"; // Slightly fade the menu for visual effect
-
-        setTimeout(function () {
-            vidLoadIn.style.display = "none"; // Hide the vidLoadIn.gif
-            headHold.style.display = "block";
-            iframe.style.opacity = 1; // Fade in the iframe
-            exitButton.style.opacity = 1; // Fade in the exit button
-            exitButton.style.pointerEvents = "auto";
-            iframe.style.pointerEvents = "auto";
-
-        }, 3000); // Change back to headbobble gif after 3 seconds (3000 milliseconds)
-    }
-
-    function closeVid() {
-        var img = document.querySelector(".head-float");
-        var vidLoadIn = document.querySelector(".vid-load-in");
-        var headHold = document.querySelector(".head-open-hold");
-        var iframe = document.querySelector("iframe");
-        var exitButton = document.querySelector(".exit-vid");
-        var navigationMenu = document.querySelector(".navigation-menu");
-
-        vidLoadIn.style.display = "none"; // Hide the vidLoadIn.gif
-        headHold.style.display = "none"; // Hide the HeadOpenHold.gif
-        img.style.display = "block"; // Show the headbobble gif
-        iframe.style.opacity = "0"; // Hide the iframe
-        exitButton.style.opacity = "0"; // Hide the exit button
-        exitButton.style.pointerEvents = "none";
-        
-        // Restore navigation menu
-        navigationMenu.style.pointerEvents = "auto"; // Enable interactions
-        navigationMenu.style.opacity = "1"; // Restore opacity
-        
-        iframe.style.pointerEvents = "none"; // Disable pointer events for the iframe
-        }
-</script>
-
+                    <script src="videoplayer.js"></script>
+               
+                <div class="about-me" id="about-me">
+                    <h2>Hey there, I’m <span class="fancy">Aaron!</span></h2>
+                    <p>
+                        I’m a video motion graphics designer passionate about collaboration on projects that balance curiosity with practicality,
+                        making design decisions based on user and business needs.
+                    </p>
                 </div>
-                 </div> </div>
+
+            </div>
+               
+        </div>
             
-    <script>
-        var contents = document.querySelector(".center-image-container");
-        var aboutMe = document.querySelector(".about-me");
-        var headFloat = document.querySelector(".head-float");
-
-        window.addEventListener("load", function() {
-            // Step 1: Fade in the center-image-container
-            contents.style.opacity = 1;
-
-            // Step 2: Fade in the about-me div after a delay (e.g., 1 second)
-            setTimeout(function() {
-                aboutMe.style.transition = "opacity 2s";
-                aboutMe.style.opacity = 1;
-                aboutMe.style.pointerEvents = "auto"; // Allow interaction when visible
-                aboutMe.style.visibility = "visible"; // Ensure it's visible
-            }, 1000);
-
-            // Step 3: Fade out the about-me div and fade in head-float (e.g., 5 seconds later)
-            setTimeout(function() {
-                aboutMe.style.opacity = 0;
-                aboutMe.style.pointerEvents = "none"; // Disable interaction after fading out
-                setTimeout(function() {
-                    aboutMe.style.visibility = "hidden"; // Hide it from the layout after fade-out
-                    headFloat.style.transition = "opacity 2s";
-                    headFloat.style.opacity = 1;
-                }, 2000); // Wait for fade-out to complete before setting visibility and fading in head-float
-            }, 6000); // 1 second delay + 5 seconds to fade out
-        });
-    </script>
+    </div>
+            
+    <script src="bootup.js"></script>
 
 
     <footer>
