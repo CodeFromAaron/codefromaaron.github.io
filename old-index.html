@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aaron HG | My Digital Portfolio</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+       <img src="assets/pointer-purple.png" class="purple-pointer" id="purple-pointer">
+    <script>
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('purple-pointer').style.opacity = '1';
+            }, 6000);
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+    <script>
+        let scene, camera, renderer, model1, model2, spinSpeed, targetScale, staticMaterial, originalMaterials = {};
+
+        function loadShaderFile(url) {
+            return fetch(url)
+                .then(response => response.text());
+        }
+
+        async function init() {
+            scene = new THREE.Scene();
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 5;
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setClearColor(0x1d1628); // Set background color to #1d1628
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(5, 5, 5).normalize();
+            scene.add(light);
+
+            const loader = new THREE.GLTFLoader();
+
+            // Load shaders
+            const vertexShader = await loadShaderFile('assets/shaders/vertexShader.glsl');
+            const fragmentShader = await loadShaderFile('assets/shaders/fragmentShader.glsl');
+
+            loader.load('assets/red-tv-web.glb', function (gltf) {
+                model1 = gltf.scene;
+
+                // Store original materials
+                model1.traverse(function (child) {
+                    if (child.isMesh) {
+                        originalMaterials[child.uuid] = child.material;
+                    }
+                });
+
+                // Initial scale and position
+                model1.scale.set(0.2, 0.2, 0.2);
+                model1.position.set(0, 0, 0);
+                scene.add(model1);
+
+                // Initialize spin speed and target scale
+                spinSpeed = 0.01;
+                targetScale = 0.2;
+
+                // Add interaction box
+                const interactionBox = document.createElement('div');
+                interactionBox.id = 'interactionBox';
+                document.body.appendChild(interactionBox);
+
+                // Add mouse event listeners
+                interactionBox.addEventListener('mouseenter', function() {
+                    onMouseEnterInteractionBox(vertexShader, fragmentShader);
+                });
+                
+                interactionBox.addEventListener('mouseleave', onMouseLeaveInteractionBox);
+                interactionBox.addEventListener('click', onClickInteractionBox);
+            });
+
+            loader.load('assets/tv-play-hovering.glb', function (gltf) {
+                model2 = gltf.scene;
+
+                // Initial scale and position
+                model2.scale.set(0.2, 0.2, 0.2);
+                model2.position.set(0, 0, 0);
+                model2.visible = false; // Set to invisible initially
+                
+                // Set emissive color and intensity for each mesh
+                model2.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material.emissiveMap = child.material.map;
+                        child.material.emissiveIntensity = 1; // Emission intensity
+                        child.material.transparent = true;
+                        child.material.opacity = 0.8;
+                        child.material.emissive = new THREE.Color(0x4CAF50); // Set to white color for emissive light
+                        child.material.needsUpdate = true; // Update material
+                    }
+                });
+
+                scene.add(model2);
+            });
+
+            window.addEventListener('resize', onWindowResize, false);
+        }
+
+        function createStaticMaterial(vertexShader, fragmentShader) {
+            const uniforms = {
+                time: { value: 0.0 }
+            };
+
+            staticMaterial = new THREE.ShaderMaterial({
+                uniforms: uniforms,
+                vertexShader: vertexShader,
+                fragmentShader: fragmentShader
+            });
+
+            return staticMaterial;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseEnterInteractionBox(vertexShader, fragmentShader) {
+            document.getElementById('purple-pointer').style.opacity = '0';
+            if (model1 && model2) {
+                // Scale up and increase spin speed
+                targetScale = 0.4;
+                spinSpeed = 0.03;
+                model2.visible = true;
+
+                // Apply static material to model1
+                model1.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material = createStaticMaterial(vertexShader, fragmentShader);
+                    }
+                });
+            }
+        }
+
+        function onMouseLeaveInteractionBox() {
+            document.getElementById('purple-pointer').style.opacity = '1';
+            if (model1 && model2) {
+                // Scale down and reset spin speed
+                targetScale = 0.2;
+                spinSpeed = 0.01;
+                model2.visible = false;
+
+                // Revert to original material
+                model1.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.material = originalMaterials[child.uuid];
+                    }
+                });
+            }
+        }
+
+        function removeEventListeners() {
+            const interactionBox = document.getElementById('interactionBox');
+            interactionBox.removeEventListener('mouseenter', onMouseEnterInteractionBox);
+            interactionBox.removeEventListener('mouseleave', onMouseLeaveInteractionBox);
+            interactionBox.removeEventListener('click', onClickInteractionBox);
+        }
+
+        function onClickInteractionBox() {
+            document.getElementById('purple-pointer').style.opacity = '0';
+            if (model1 && model2) {
+                // Stop spinning
+                spinSpeed = 0;
+
+                // Reset rotations
+                model1.rotation.y = -45;
+                model2.rotation.y = -45;
+
+                // Remove event listeners
+                removeEventListeners();
+
+                // Wait for 3 seconds (3000 milliseconds) and then make model1 invisible
+                setTimeout(() => {
+                    model1.visible = false;
+                }, 3000);
+
+                // Create a plane that covers the whole screen with the shader material
+                const shaderPlaneGeometry = new THREE.PlaneGeometry(window.innerWidth, window.innerHeight);
+                const shaderPlaneMaterial = createStaticMaterial(staticMaterial.vertexShader, staticMaterial.fragmentShader);
+                const shaderPlane = new THREE.Mesh(shaderPlaneGeometry, shaderPlaneMaterial);
+                scene.add(shaderPlane);
+
+                // Create a purple plane that covers the whole screen
+                const purplePlaneMaterial = new THREE.MeshBasicMaterial({ color: 0x1d1628, transparent: true, opacity: 1 });
+                const purplePlane = new THREE.Mesh(shaderPlaneGeometry, purplePlaneMaterial);
+                scene.add(purplePlane);
+
+                let opacity = 1;
+                const fadeOutSpeed = 0.01; // Adjust the speed of the fade-out
+
+                function fadeOut() {
+                    if (opacity > 0) {
+                        opacity -= fadeOutSpeed;
+
+                        // Change the opacity of the purple plane
+                        purplePlaneMaterial.opacity = opacity;
+
+                        // Change the opacity of model1 and model2
+                        model1.traverse(function (child) {
+                            if (child.isMesh) {
+                                child.material.opacity = opacity;
+                            }
+                        });
+
+                        model2.traverse(function (child) {
+                            if (child.isMesh) {
+                                child.material.opacity = opacity;
+                            }
+                        });
+
+                        requestAnimationFrame(fadeOut);
+                    }
+                }
+
+                // Call fadeOut after the planes are added to the scene
+                fadeOut();
+            }
+
+            // Wait for 3 seconds (3000 milliseconds) and then make model1 invisible
+            setTimeout(() => {
+                window.location.href = 'home.html';
+            }, 3000);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (model1 && model2) {
+                model1.rotation.y += spinSpeed;
+                model1.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); // Smooth scaling for model1
+
+                model2.rotation.y += spinSpeed;
+                model2.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); // Smooth scaling for model2
+
+                // Update static effect
+                if (staticMaterial) {
+                    staticMaterial.uniforms.time.value += 0.05;
+                }
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+        animate();
+    </script>
+    
+    <footer>
+    <div style="position: absolute; left: 24px; bottom: 0; font-size: small; font-family: 'Trebuchet MS', sans-serif; background-color: rgba(0, 0, 0, 0); color: rgba(255, 255, 255, 0.50); padding: 20px; text-align: center;">
+        <p style="margin: 0;">&copy; 2024 <a href="https://codefromaaron.github.io/" style="color: rgba(226, 173, 255, 0.7); text-decoration: none;">Aaron Hamilton Gold</a>. All Rights Reserved.</p>
+    </div>
+    </footer>
+
+    
+</body>
+</html>
