@@ -16,7 +16,7 @@ function changeGif() {
         iframe.style.opacity = 1; // Fade in the iframe
         exitButton.style.opacity = 1; // Fade in the exit button
         exitButton.style.pointerEvents = "auto";
-        iframe.style.pointerEvents = "auto";
+        iframe.style.pointerEvents = "auto";        
 
     }, 3000); // Change back to headbobble gif after 3 seconds (3000 milliseconds)
 }

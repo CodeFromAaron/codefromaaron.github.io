@@ -22,6 +22,6 @@
                             aboutMe.style.visibility = "hidden"; // Hide it from the layout after fade-out
                             headFloat.style.transition = "opacity 2s";
                             headFloat.style.opacity = 1;
-                        }, 2000); // Wait for fade-out to complete before setting visibility and fading in head-float
+                        }, 1000); // Wait for fade-out to complete before setting visibility and fading in head-float
                     }, 6000); // 1 second delay + 5 seconds to fade out
                 });
