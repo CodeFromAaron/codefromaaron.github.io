@@ -1,3 +1,36 @@
+.channel {
+  position: absolute;   
+  top: 0;
+  left: 0;
+  width: 100%;          
+  height: 100%;         
+  object-fit: cover;    
+  opacity: 0;           /* hidden by default */
+  z-index: 9999;
+  pointer-events: none;
+  transition: none;
+}
+
+
+#client-work-btn {
+    position: absolute;
+    bottom: 12.5vh;
+    right: 19vw;
+    z-index: 4;
+    background-color: purple;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    transition: background-color 0.3s ease;
+}
+
+#client-work-btn:hover {
+    color: #1d1628;
+    background-color: rgb(200, 100, 200);
+}
+
 html,
 body {
     margin: 0;
@@ -270,6 +303,13 @@ body {
 
 /* Mobile */
 @media (max-width: 767px) {
+    
+    #client-work-btn {
+    position: absolute;
+    bottom: 100px;
+    right: 10px;
+    }
+    
     .center-image,
     .overlay-image {
         width: 400%;
@@ -333,8 +373,8 @@ body {
     footer,
     .copywrite-line {
         font-size: small;
-        left: 0;
         width: 100%;
+        text-align: center; 
     }
 
     body {
@@ -378,7 +418,12 @@ body {
     }
    
     @media (max-width: 344px) {
-
+        #client-work-btn {
+            position: absolute;
+            bottom: 800px;
+            right: 10px;
+        }
+        
         .center-image,
         .overlay-image,
         .btm-tuner-static,
@@ -433,7 +478,7 @@ body {
             z-index: 1;
             color: rgba(255, 186, 236, 0.68);
             font-size: x-small;
-            left: 0;
+            text-align: center; 
         }
     }
 }
