@@ -1,3 +1,12 @@
+.click-here{
+    position: absolute;
+    z-index: 9999;
+    width: auto;
+    height: 14%;
+    left: 13vw;
+    top: 25vh;
+}
+
 .channel {
   position: absolute;   
   top: 0;

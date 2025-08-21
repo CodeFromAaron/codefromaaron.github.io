@@ -2,11 +2,13 @@ var contents = document.querySelector(".center-image-container");
 var aboutMe = document.querySelector(".about-me");
 var headFloat = document.querySelector(".head-float");
 var clientWork = document.querySelector(".client-work-btn");
+var clickHere = document.querySelector(".click-here");
 
 window.addEventListener("load", function () {
 
     // Step 1: Fade in the center-image-container
     contents.style.opacity = 1;
+    clickHere.style.opacity = 0;
     clientWork.style.opacity = 0;
 
     // Step 1.5: Flicker channel after ~500ms
@@ -33,6 +35,7 @@ window.addEventListener("load", function () {
             
             // Delay headFloat fade-in to allow flicker to finish (adjust as needed)
             setTimeout(function () {
+                clickHere.style.opacity = 1;
                 headFloat.style.transition = "opacity 2s";
                 headFloat.style.opacity = 1;
                 clientWork.style.opacity = 1;
