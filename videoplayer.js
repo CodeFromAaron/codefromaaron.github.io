@@ -1,4 +1,5 @@
 function changeGif() {
+    var clickHere = document.querySelector(".click-here");
     var img = document.querySelector(".head-float");
     var vidLoadIn = document.querySelector(".vid-load-in");
     var headHold = document.querySelector(".head-open-hold");
@@ -12,6 +13,7 @@ function changeGif() {
     img.style.display = "none"; // Hide the headbobble gif
     clientWork.style.opacity = "0"; // Hide the client button
     clientWork.style.pointerEvents = "none";
+    clickHere.style.opacity = 0;
 
     setTimeout(function () {
         vidLoadIn.style.display = "none"; // Hide the vidLoadIn.gif
@@ -25,6 +27,7 @@ function changeGif() {
 }
 
 function closeVid() {
+    var clickHere = document.querySelector(".click-here");
     var img = document.querySelector(".head-float");
     var vidLoadIn = document.querySelector(".vid-load-in");
     var headHold = document.querySelector(".head-open-hold");
